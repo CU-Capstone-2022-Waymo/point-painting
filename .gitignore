@@ -1,5 +1,5 @@
 # ignore ALL files in these directory
 outputs/.
 work_dirs/.
-nuImage_dataset/.
+nuImage_dataset/
 .ipynb_checkpoints/.
