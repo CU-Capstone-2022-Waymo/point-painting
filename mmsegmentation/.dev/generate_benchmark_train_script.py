@@ -46,7 +46,7 @@ def create_train_bash_info(commands, config, script_name, partition, port):
     command_info += f'{partition} '
     command_info += f'{config_name} '
     command_info += f'{cfg} '
-    command_info += f'--options ' \
+    command_info += f'--cfg-options ' \
                     f'checkpoint_config.max_keep_ckpts=1 ' \
                     f'dist_params.port={port} '
     command_info += f'--work-dir work_dirs/{model_name}/{config_name} '
@@ -69,14 +69,11 @@ def main():
     port = args.port
     partition_name = 'PARTITION=$1'
 
-    commands = []
-    commands.append(partition_name)
-    commands.append('\n')
-    commands.append('\n')
+    commands = [partition_name, '\n', '\n']
 
     with open(args.txt_path, 'r') as f:
         model_cfgs = f.readlines()
-        for i, cfg in enumerate(model_cfgs):
+        for cfg in model_cfgs:
             create_train_bash_info(commands, cfg, script_name, '$PARTITION',
                                    port)
             port += 1

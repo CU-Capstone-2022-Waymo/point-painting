@@ -123,6 +123,31 @@ def test_resize():
     assert int(288 * 0.5) <= resized_results['img_shape'][0] <= 288 * 2.0
     assert int(512 * 0.5) <= resized_results['img_shape'][1] <= 512 * 2.0
 
+    # test min_size=640
+    transform = dict(type='Resize', img_scale=(2560, 640), min_size=640)
+    resize_module = build_from_cfg(transform, PIPELINES)
+    resized_results = resize_module(results.copy())
+    assert resized_results['img_shape'] == (640, 1138, 3)
+
+    # test min_size=640 and img_scale=(512, 640)
+    transform = dict(type='Resize', img_scale=(512, 640), min_size=640)
+    resize_module = build_from_cfg(transform, PIPELINES)
+    resized_results = resize_module(results.copy())
+    assert resized_results['img_shape'] == (640, 1138, 3)
+
+    # test h > w
+    img = np.random.randn(512, 288, 3)
+    results['img'] = img
+    results['img_shape'] = img.shape
+    results['ori_shape'] = img.shape
+    # Set initial values for default meta_keys
+    results['pad_shape'] = img.shape
+    results['scale_factor'] = 1.0
+    transform = dict(type='Resize', img_scale=(2560, 640), min_size=640)
+    resize_module = build_from_cfg(transform, PIPELINES)
+    resized_results = resize_module(results.copy())
+    assert resized_results['img_shape'] == (1138, 640, 3)
+
 
 def test_flip():
     # test assertion for invalid prob
@@ -614,3 +639,52 @@ def test_cutout():
     cutout_result = cutout_module(copy.deepcopy(results))
     assert cutout_result['img'].sum() > img.sum()
     assert cutout_result['gt_semantic_seg'].sum() > seg.sum()
+
+
+def test_mosaic():
+    # test prob
+    with pytest.raises(AssertionError):
+        transform = dict(type='RandomMosaic', prob=1.5)
+        build_from_cfg(transform, PIPELINES)
+    # test assertion for invalid img_scale
+    with pytest.raises(AssertionError):
+        transform = dict(type='RandomMosaic', prob=1, img_scale=640)
+        build_from_cfg(transform, PIPELINES)
+
+    results = dict()
+    img = mmcv.imread(
+        osp.join(osp.dirname(__file__), '../data/color.jpg'), 'color')
+    seg = np.array(
+        Image.open(osp.join(osp.dirname(__file__), '../data/seg.png')))
+
+    results['img'] = img
+    results['gt_semantic_seg'] = seg
+    results['seg_fields'] = ['gt_semantic_seg']
+
+    transform = dict(type='RandomMosaic', prob=1, img_scale=(10, 12))
+    mosaic_module = build_from_cfg(transform, PIPELINES)
+    assert 'Mosaic' in repr(mosaic_module)
+
+    # test assertion for invalid mix_results
+    with pytest.raises(AssertionError):
+        mosaic_module(results)
+
+    results['mix_results'] = [copy.deepcopy(results)] * 3
+    results = mosaic_module(results)
+    assert results['img'].shape[:2] == (20, 24)
+
+    results = dict()
+    results['img'] = img[:, :, 0]
+    results['gt_semantic_seg'] = seg
+    results['seg_fields'] = ['gt_semantic_seg']
+
+    transform = dict(type='RandomMosaic', prob=0, img_scale=(10, 12))
+    mosaic_module = build_from_cfg(transform, PIPELINES)
+    results['mix_results'] = [copy.deepcopy(results)] * 3
+    results = mosaic_module(results)
+    assert results['img'].shape[:2] == img.shape[:2]
+
+    transform = dict(type='RandomMosaic', prob=1, img_scale=(10, 12))
+    mosaic_module = build_from_cfg(transform, PIPELINES)
+    results = mosaic_module(results)
+    assert results['img'].shape[:2] == (20, 24)

@@ -1,5 +1,5 @@
 Collections:
-- Name: pspnet
+- Name: PSPNet
   Metadata:
     Training Data:
     - Cityscapes
@@ -11,6 +11,9 @@ Collections:
     - COCO-Stuff 10k
     - COCO-Stuff 164k
     - LoveDA
+    - Potsdam
+    - Vaihingen
+    - iSAID
   Paper:
     URL: https://arxiv.org/abs/1612.01105
     Title: Pyramid Scene Parsing Network
@@ -22,7 +25,7 @@ Collections:
     Code: https://github.com/hszhao/PSPNet
 Models:
 - Name: pspnet_r50-d8_512x1024_40k_cityscapes
-  In Collection: pspnet
+  In Collection: PSPNet
   Metadata:
     backbone: R-50-D8
     crop size: (512,1024)
@@ -44,7 +47,7 @@ Models:
   Config: configs/pspnet/pspnet_r50-d8_512x1024_40k_cityscapes.py
   Weights: https://download.openmmlab.com/mmsegmentation/v0.5/pspnet/pspnet_r50-d8_512x1024_40k_cityscapes/pspnet_r50-d8_512x1024_40k_cityscapes_20200605_003338-2966598c.pth
 - Name: pspnet_r101-d8_512x1024_40k_cityscapes
-  In Collection: pspnet
+  In Collection: PSPNet
   Metadata:
     backbone: R-101-D8
     crop size: (512,1024)
@@ -66,7 +69,7 @@ Models:
   Config: configs/pspnet/pspnet_r101-d8_512x1024_40k_cityscapes.py
   Weights: https://download.openmmlab.com/mmsegmentation/v0.5/pspnet/pspnet_r101-d8_512x1024_40k_cityscapes/pspnet_r101-d8_512x1024_40k_cityscapes_20200604_232751-467e7cf4.pth
 - Name: pspnet_r50-d8_769x769_40k_cityscapes
-  In Collection: pspnet
+  In Collection: PSPNet
   Metadata:
     backbone: R-50-D8
     crop size: (769,769)
@@ -88,7 +91,7 @@ Models:
   Config: configs/pspnet/pspnet_r50-d8_769x769_40k_cityscapes.py
   Weights: https://download.openmmlab.com/mmsegmentation/v0.5/pspnet/pspnet_r50-d8_769x769_40k_cityscapes/pspnet_r50-d8_769x769_40k_cityscapes_20200606_112725-86638686.pth
 - Name: pspnet_r101-d8_769x769_40k_cityscapes
-  In Collection: pspnet
+  In Collection: PSPNet
   Metadata:
     backbone: R-101-D8
     crop size: (769,769)
@@ -110,7 +113,7 @@ Models:
   Config: configs/pspnet/pspnet_r101-d8_769x769_40k_cityscapes.py
   Weights: https://download.openmmlab.com/mmsegmentation/v0.5/pspnet/pspnet_r101-d8_769x769_40k_cityscapes/pspnet_r101-d8_769x769_40k_cityscapes_20200606_112753-61c6f5be.pth
 - Name: pspnet_r18-d8_512x1024_80k_cityscapes
-  In Collection: pspnet
+  In Collection: PSPNet
   Metadata:
     backbone: R-18-D8
     crop size: (512,1024)
@@ -132,7 +135,7 @@ Models:
   Config: configs/pspnet/pspnet_r18-d8_512x1024_80k_cityscapes.py
   Weights: https://download.openmmlab.com/mmsegmentation/v0.5/pspnet/pspnet_r18-d8_512x1024_80k_cityscapes/pspnet_r18-d8_512x1024_80k_cityscapes_20201225_021458-09ffa746.pth
 - Name: pspnet_r50-d8_512x1024_80k_cityscapes
-  In Collection: pspnet
+  In Collection: PSPNet
   Metadata:
     backbone: R-50-D8
     crop size: (512,1024)
@@ -145,8 +148,30 @@ Models:
       mIoU(ms+flip): 79.79
   Config: configs/pspnet/pspnet_r50-d8_512x1024_80k_cityscapes.py
   Weights: https://download.openmmlab.com/mmsegmentation/v0.5/pspnet/pspnet_r50-d8_512x1024_80k_cityscapes/pspnet_r50-d8_512x1024_80k_cityscapes_20200606_112131-2376f12b.pth
+- Name: pspnet_r50-d8_rsb-pretrain_512x1024_adamw_80k_cityscapes
+  In Collection: PSPNet
+  Metadata:
+    backbone: R-50b-D8 rsb
+    crop size: (512,1024)
+    lr schd: 80000
+    inference time (ms/im):
+    - value: 261.78
+      hardware: V100
+      backend: PyTorch
+      batch size: 1
+      mode: FP32
+      resolution: (512,1024)
+    Training Memory (GB): 6.2
+  Results:
+  - Task: Semantic Segmentation
+    Dataset: Cityscapes
+    Metrics:
+      mIoU: 78.47
+      mIoU(ms+flip): 79.45
+  Config: configs/pspnet/pspnet_r50-d8_rsb-pretrain_512x1024_adamw_80k_cityscapes.py
+  Weights: https://download.openmmlab.com/mmsegmentation/v0.5/pspnet/pspnet_r50-d8_rsb-pretrain_512x1024_adamw_80k_cityscapes/pspnet_r50-d8_rsb-pretrain_512x1024_adamw_80k_cityscapes_20220315_123238-588c30be.pth
 - Name: pspnet_r101-d8_512x1024_80k_cityscapes
-  In Collection: pspnet
+  In Collection: PSPNet
   Metadata:
     backbone: R-101-D8
     crop size: (512,1024)
@@ -160,7 +185,7 @@ Models:
   Config: configs/pspnet/pspnet_r101-d8_512x1024_80k_cityscapes.py
   Weights: https://download.openmmlab.com/mmsegmentation/v0.5/pspnet/pspnet_r101-d8_512x1024_80k_cityscapes/pspnet_r101-d8_512x1024_80k_cityscapes_20200606_112211-e1e1100f.pth
 - Name: pspnet_r101-d8_fp16_512x1024_80k_cityscapes
-  In Collection: pspnet
+  In Collection: PSPNet
   Metadata:
     backbone: R-101-D8
     crop size: (512,1024)
@@ -181,7 +206,7 @@ Models:
   Config: configs/pspnet/pspnet_r101-d8_fp16_512x1024_80k_cityscapes.py
   Weights: https://download.openmmlab.com/mmsegmentation/v0.5/pspnet/pspnet_r101-d8_fp16_512x1024_80k_cityscapes/pspnet_r101-d8_fp16_512x1024_80k_cityscapes_20200717_230919-a0875e5c.pth
 - Name: pspnet_r18-d8_769x769_80k_cityscapes
-  In Collection: pspnet
+  In Collection: PSPNet
   Metadata:
     backbone: R-18-D8
     crop size: (769,769)
@@ -203,7 +228,7 @@ Models:
   Config: configs/pspnet/pspnet_r18-d8_769x769_80k_cityscapes.py
   Weights: https://download.openmmlab.com/mmsegmentation/v0.5/pspnet/pspnet_r18-d8_769x769_80k_cityscapes/pspnet_r18-d8_769x769_80k_cityscapes_20201225_021458-3deefc62.pth
 - Name: pspnet_r50-d8_769x769_80k_cityscapes
-  In Collection: pspnet
+  In Collection: PSPNet
   Metadata:
     backbone: R-50-D8
     crop size: (769,769)
@@ -217,7 +242,7 @@ Models:
   Config: configs/pspnet/pspnet_r50-d8_769x769_80k_cityscapes.py
   Weights: https://download.openmmlab.com/mmsegmentation/v0.5/pspnet/pspnet_r50-d8_769x769_80k_cityscapes/pspnet_r50-d8_769x769_80k_cityscapes_20200606_210121-5ccf03dd.pth
 - Name: pspnet_r101-d8_769x769_80k_cityscapes
-  In Collection: pspnet
+  In Collection: PSPNet
   Metadata:
     backbone: R-101-D8
     crop size: (769,769)
@@ -231,7 +256,7 @@ Models:
   Config: configs/pspnet/pspnet_r101-d8_769x769_80k_cityscapes.py
   Weights: https://download.openmmlab.com/mmsegmentation/v0.5/pspnet/pspnet_r101-d8_769x769_80k_cityscapes/pspnet_r101-d8_769x769_80k_cityscapes_20200606_225055-dba412fa.pth
 - Name: pspnet_r18b-d8_512x1024_80k_cityscapes
-  In Collection: pspnet
+  In Collection: PSPNet
   Metadata:
     backbone: R-18b-D8
     crop size: (512,1024)
@@ -253,7 +278,7 @@ Models:
   Config: configs/pspnet/pspnet_r18b-d8_512x1024_80k_cityscapes.py
   Weights: https://download.openmmlab.com/mmsegmentation/v0.5/pspnet/pspnet_r18b-d8_512x1024_80k_cityscapes/pspnet_r18b-d8_512x1024_80k_cityscapes_20201226_063116-26928a60.pth
 - Name: pspnet_r50b-d8_512x1024_80k_cityscapes
-  In Collection: pspnet
+  In Collection: PSPNet
   Metadata:
     backbone: R-50b-D8
     crop size: (512,1024)
@@ -275,7 +300,7 @@ Models:
   Config: configs/pspnet/pspnet_r50b-d8_512x1024_80k_cityscapes.py
   Weights: https://download.openmmlab.com/mmsegmentation/v0.5/pspnet/pspnet_r50b-d8_512x1024_80k_cityscapes/pspnet_r50b-d8_512x1024_80k_cityscapes_20201225_094315-6344287a.pth
 - Name: pspnet_r101b-d8_512x1024_80k_cityscapes
-  In Collection: pspnet
+  In Collection: PSPNet
   Metadata:
     backbone: R-101b-D8
     crop size: (512,1024)
@@ -297,7 +322,7 @@ Models:
   Config: configs/pspnet/pspnet_r101b-d8_512x1024_80k_cityscapes.py
   Weights: https://download.openmmlab.com/mmsegmentation/v0.5/pspnet/pspnet_r101b-d8_512x1024_80k_cityscapes/pspnet_r101b-d8_512x1024_80k_cityscapes_20201226_170012-3a4d38ab.pth
 - Name: pspnet_r18b-d8_769x769_80k_cityscapes
-  In Collection: pspnet
+  In Collection: PSPNet
   Metadata:
     backbone: R-18b-D8
     crop size: (769,769)
@@ -319,7 +344,7 @@ Models:
   Config: configs/pspnet/pspnet_r18b-d8_769x769_80k_cityscapes.py
   Weights: https://download.openmmlab.com/mmsegmentation/v0.5/pspnet/pspnet_r18b-d8_769x769_80k_cityscapes/pspnet_r18b-d8_769x769_80k_cityscapes_20201226_080942-bf98d186.pth
 - Name: pspnet_r50b-d8_769x769_80k_cityscapes
-  In Collection: pspnet
+  In Collection: PSPNet
   Metadata:
     backbone: R-50b-D8
     crop size: (769,769)
@@ -341,7 +366,7 @@ Models:
   Config: configs/pspnet/pspnet_r50b-d8_769x769_80k_cityscapes.py
   Weights: https://download.openmmlab.com/mmsegmentation/v0.5/pspnet/pspnet_r50b-d8_769x769_80k_cityscapes/pspnet_r50b-d8_769x769_80k_cityscapes_20201225_094316-4c643cf6.pth
 - Name: pspnet_r101b-d8_769x769_80k_cityscapes
-  In Collection: pspnet
+  In Collection: PSPNet
   Metadata:
     backbone: R-101b-D8
     crop size: (769,769)
@@ -362,8 +387,74 @@ Models:
       mIoU(ms+flip): 80.04
   Config: configs/pspnet/pspnet_r101b-d8_769x769_80k_cityscapes.py
   Weights: https://download.openmmlab.com/mmsegmentation/v0.5/pspnet/pspnet_r101b-d8_769x769_80k_cityscapes/pspnet_r101b-d8_769x769_80k_cityscapes_20201226_171823-f0e7c293.pth
+- Name: pspnet_r50-d32_512x1024_80k_cityscapes
+  In Collection: PSPNet
+  Metadata:
+    backbone: R-50-D32
+    crop size: (512,1024)
+    lr schd: 80000
+    inference time (ms/im):
+    - value: 65.75
+      hardware: V100
+      backend: PyTorch
+      batch size: 1
+      mode: FP32
+      resolution: (512,1024)
+    Training Memory (GB): 3.0
+  Results:
+  - Task: Semantic Segmentation
+    Dataset: Cityscapes
+    Metrics:
+      mIoU: 73.88
+      mIoU(ms+flip): 76.85
+  Config: configs/pspnet/pspnet_r50-d32_512x1024_80k_cityscapes.py
+  Weights: https://download.openmmlab.com/mmsegmentation/v0.5/pspnet/pspnet_r50-d32_512x1024_80k_cityscapes/pspnet_r50-d32_512x1024_80k_cityscapes_20220316_224840-9092b254.pth
+- Name: pspnet_r50-d32_rsb-pretrain_512x1024_adamw_80k_cityscapes
+  In Collection: PSPNet
+  Metadata:
+    backbone: R-50b-D32 rsb
+    crop size: (512,1024)
+    lr schd: 80000
+    inference time (ms/im):
+    - value: 62.19
+      hardware: V100
+      backend: PyTorch
+      batch size: 1
+      mode: FP32
+      resolution: (512,1024)
+    Training Memory (GB): 3.1
+  Results:
+  - Task: Semantic Segmentation
+    Dataset: Cityscapes
+    Metrics:
+      mIoU: 74.09
+      mIoU(ms+flip): 77.18
+  Config: configs/pspnet/pspnet_r50-d32_rsb-pretrain_512x1024_adamw_80k_cityscapes.py
+  Weights: https://download.openmmlab.com/mmsegmentation/v0.5/pspnet/pspnet_r50-d32_rsb-pretrain_512x1024_adamw_80k_cityscapes/pspnet_r50-d32_rsb-pretrain_512x1024_adamw_80k_cityscapes_20220316_141229-dd9c9610.pth
+- Name: pspnet_r50b-d32_512x1024_80k_cityscapes
+  In Collection: PSPNet
+  Metadata:
+    backbone: R-50b-D32
+    crop size: (512,1024)
+    lr schd: 80000
+    inference time (ms/im):
+    - value: 64.89
+      hardware: V100
+      backend: PyTorch
+      batch size: 1
+      mode: FP32
+      resolution: (512,1024)
+    Training Memory (GB): 2.9
+  Results:
+  - Task: Semantic Segmentation
+    Dataset: Cityscapes
+    Metrics:
+      mIoU: 72.61
+      mIoU(ms+flip): 75.51
+  Config: configs/pspnet/pspnet_r50b-d32_512x1024_80k_cityscapes.py
+  Weights: https://download.openmmlab.com/mmsegmentation/v0.5/pspnet/pspnet_r50b-d32_512x1024_80k_cityscapes/pspnet_r50b-d32_512x1024_80k_cityscapes_20220311_152152-23bcaf8c.pth
 - Name: pspnet_r50-d8_512x512_80k_ade20k
-  In Collection: pspnet
+  In Collection: PSPNet
   Metadata:
     backbone: R-50-D8
     crop size: (512,512)
@@ -385,7 +476,7 @@ Models:
   Config: configs/pspnet/pspnet_r50-d8_512x512_80k_ade20k.py
   Weights: https://download.openmmlab.com/mmsegmentation/v0.5/pspnet/pspnet_r50-d8_512x512_80k_ade20k/pspnet_r50-d8_512x512_80k_ade20k_20200615_014128-15a8b914.pth
 - Name: pspnet_r101-d8_512x512_80k_ade20k
-  In Collection: pspnet
+  In Collection: PSPNet
   Metadata:
     backbone: R-101-D8
     crop size: (512,512)
@@ -407,7 +498,7 @@ Models:
   Config: configs/pspnet/pspnet_r101-d8_512x512_80k_ade20k.py
   Weights: https://download.openmmlab.com/mmsegmentation/v0.5/pspnet/pspnet_r101-d8_512x512_80k_ade20k/pspnet_r101-d8_512x512_80k_ade20k_20200614_031423-b6e782f0.pth
 - Name: pspnet_r50-d8_512x512_160k_ade20k
-  In Collection: pspnet
+  In Collection: PSPNet
   Metadata:
     backbone: R-50-D8
     crop size: (512,512)
@@ -421,7 +512,7 @@ Models:
   Config: configs/pspnet/pspnet_r50-d8_512x512_160k_ade20k.py
   Weights: https://download.openmmlab.com/mmsegmentation/v0.5/pspnet/pspnet_r50-d8_512x512_160k_ade20k/pspnet_r50-d8_512x512_160k_ade20k_20200615_184358-1890b0bd.pth
 - Name: pspnet_r101-d8_512x512_160k_ade20k
-  In Collection: pspnet
+  In Collection: PSPNet
   Metadata:
     backbone: R-101-D8
     crop size: (512,512)
@@ -435,7 +526,7 @@ Models:
   Config: configs/pspnet/pspnet_r101-d8_512x512_160k_ade20k.py
   Weights: https://download.openmmlab.com/mmsegmentation/v0.5/pspnet/pspnet_r101-d8_512x512_160k_ade20k/pspnet_r101-d8_512x512_160k_ade20k_20200615_100650-967c316f.pth
 - Name: pspnet_r50-d8_512x512_20k_voc12aug
-  In Collection: pspnet
+  In Collection: PSPNet
   Metadata:
     backbone: R-50-D8
     crop size: (512,512)
@@ -457,7 +548,7 @@ Models:
   Config: configs/pspnet/pspnet_r50-d8_512x512_20k_voc12aug.py
   Weights: https://download.openmmlab.com/mmsegmentation/v0.5/pspnet/pspnet_r50-d8_512x512_20k_voc12aug/pspnet_r50-d8_512x512_20k_voc12aug_20200617_101958-ed5dfbd9.pth
 - Name: pspnet_r101-d8_512x512_20k_voc12aug
-  In Collection: pspnet
+  In Collection: PSPNet
   Metadata:
     backbone: R-101-D8
     crop size: (512,512)
@@ -479,7 +570,7 @@ Models:
   Config: configs/pspnet/pspnet_r101-d8_512x512_20k_voc12aug.py
   Weights: https://download.openmmlab.com/mmsegmentation/v0.5/pspnet/pspnet_r101-d8_512x512_20k_voc12aug/pspnet_r101-d8_512x512_20k_voc12aug_20200617_102003-4aef3c9a.pth
 - Name: pspnet_r50-d8_512x512_40k_voc12aug
-  In Collection: pspnet
+  In Collection: PSPNet
   Metadata:
     backbone: R-50-D8
     crop size: (512,512)
@@ -493,7 +584,7 @@ Models:
   Config: configs/pspnet/pspnet_r50-d8_512x512_40k_voc12aug.py
   Weights: https://download.openmmlab.com/mmsegmentation/v0.5/pspnet/pspnet_r50-d8_512x512_40k_voc12aug/pspnet_r50-d8_512x512_40k_voc12aug_20200613_161222-ae9c1b8c.pth
 - Name: pspnet_r101-d8_512x512_40k_voc12aug
-  In Collection: pspnet
+  In Collection: PSPNet
   Metadata:
     backbone: R-101-D8
     crop size: (512,512)
@@ -507,7 +598,7 @@ Models:
   Config: configs/pspnet/pspnet_r101-d8_512x512_40k_voc12aug.py
   Weights: https://download.openmmlab.com/mmsegmentation/v0.5/pspnet/pspnet_r101-d8_512x512_40k_voc12aug/pspnet_r101-d8_512x512_40k_voc12aug_20200613_161222-bc933b18.pth
 - Name: pspnet_r101-d8_480x480_40k_pascal_context
-  In Collection: pspnet
+  In Collection: PSPNet
   Metadata:
     backbone: R-101-D8
     crop size: (480,480)
@@ -529,7 +620,7 @@ Models:
   Config: configs/pspnet/pspnet_r101-d8_480x480_40k_pascal_context.py
   Weights: https://download.openmmlab.com/mmsegmentation/v0.5/pspnet/pspnet_r101-d8_480x480_40k_pascal_context/pspnet_r101-d8_480x480_40k_pascal_context_20200911_211210-bf0f5d7c.pth
 - Name: pspnet_r101-d8_480x480_80k_pascal_context
-  In Collection: pspnet
+  In Collection: PSPNet
   Metadata:
     backbone: R-101-D8
     crop size: (480,480)
@@ -543,7 +634,7 @@ Models:
   Config: configs/pspnet/pspnet_r101-d8_480x480_80k_pascal_context.py
   Weights: https://download.openmmlab.com/mmsegmentation/v0.5/pspnet/pspnet_r101-d8_480x480_80k_pascal_context/pspnet_r101-d8_480x480_80k_pascal_context_20200911_190530-c86d6233.pth
 - Name: pspnet_r101-d8_480x480_40k_pascal_context_59
-  In Collection: pspnet
+  In Collection: PSPNet
   Metadata:
     backbone: R-101-D8
     crop size: (480,480)
@@ -557,7 +648,7 @@ Models:
   Config: configs/pspnet/pspnet_r101-d8_480x480_40k_pascal_context_59.py
   Weights: https://download.openmmlab.com/mmsegmentation/v0.5/pspnet/pspnet_r101-d8_480x480_40k_pascal_context_59/pspnet_r101-d8_480x480_40k_pascal_context_59_20210416_114524-86d44cd4.pth
 - Name: pspnet_r101-d8_480x480_80k_pascal_context_59
-  In Collection: pspnet
+  In Collection: PSPNet
   Metadata:
     backbone: R-101-D8
     crop size: (480,480)
@@ -571,7 +662,7 @@ Models:
   Config: configs/pspnet/pspnet_r101-d8_480x480_80k_pascal_context_59.py
   Weights: https://download.openmmlab.com/mmsegmentation/v0.5/pspnet/pspnet_r101-d8_480x480_80k_pascal_context_59/pspnet_r101-d8_480x480_80k_pascal_context_59_20210416_114418-fa6caaa2.pth
 - Name: pspnet_r50-d8_512x512_4x4_20k_coco-stuff10k
-  In Collection: pspnet
+  In Collection: PSPNet
   Metadata:
     backbone: R-50-D8
     crop size: (512,512)
@@ -593,7 +684,7 @@ Models:
   Config: configs/pspnet/pspnet_r50-d8_512x512_4x4_20k_coco-stuff10k.py
   Weights: https://download.openmmlab.com/mmsegmentation/v0.5/pspnet/pspnet_r50-d8_512x512_4x4_20k_coco-stuff10k/pspnet_r50-d8_512x512_4x4_20k_coco-stuff10k_20210820_203258-b88df27f.pth
 - Name: pspnet_r101-d8_512x512_4x4_20k_coco-stuff10k
-  In Collection: pspnet
+  In Collection: PSPNet
   Metadata:
     backbone: R-101-D8
     crop size: (512,512)
@@ -615,7 +706,7 @@ Models:
   Config: configs/pspnet/pspnet_r101-d8_512x512_4x4_20k_coco-stuff10k.py
   Weights: https://download.openmmlab.com/mmsegmentation/v0.5/pspnet/pspnet_r101-d8_512x512_4x4_20k_coco-stuff10k/pspnet_r101-d8_512x512_4x4_20k_coco-stuff10k_20210820_232135-76aae482.pth
 - Name: pspnet_r50-d8_512x512_4x4_40k_coco-stuff10k
-  In Collection: pspnet
+  In Collection: PSPNet
   Metadata:
     backbone: R-50-D8
     crop size: (512,512)
@@ -629,7 +720,7 @@ Models:
   Config: configs/pspnet/pspnet_r50-d8_512x512_4x4_40k_coco-stuff10k.py
   Weights: https://download.openmmlab.com/mmsegmentation/v0.5/pspnet/pspnet_r50-d8_512x512_4x4_40k_coco-stuff10k/pspnet_r50-d8_512x512_4x4_40k_coco-stuff10k_20210821_030857-92e2902b.pth
 - Name: pspnet_r101-d8_512x512_4x4_40k_coco-stuff10k
-  In Collection: pspnet
+  In Collection: PSPNet
   Metadata:
     backbone: R-101-D8
     crop size: (512,512)
@@ -643,7 +734,7 @@ Models:
   Config: configs/pspnet/pspnet_r101-d8_512x512_4x4_40k_coco-stuff10k.py
   Weights: https://download.openmmlab.com/mmsegmentation/v0.5/pspnet/pspnet_r101-d8_512x512_4x4_40k_coco-stuff10k/pspnet_r101-d8_512x512_4x4_40k_coco-stuff10k_20210821_014022-831aec95.pth
 - Name: pspnet_r50-d8_512x512_4x4_80k_coco-stuff164k
-  In Collection: pspnet
+  In Collection: PSPNet
   Metadata:
     backbone: R-50-D8
     crop size: (512,512)
@@ -665,7 +756,7 @@ Models:
   Config: configs/pspnet/pspnet_r50-d8_512x512_4x4_80k_coco-stuff164k.py
   Weights: https://download.openmmlab.com/mmsegmentation/v0.5/pspnet/pspnet_r50-d8_512x512_4x4_80k_coco-stuff164k/pspnet_r50-d8_512x512_4x4_80k_coco-stuff164k_20210707_152034-0e41b2db.pth
 - Name: pspnet_r101-d8_512x512_4x4_80k_coco-stuff164k
-  In Collection: pspnet
+  In Collection: PSPNet
   Metadata:
     backbone: R-101-D8
     crop size: (512,512)
@@ -687,7 +778,7 @@ Models:
   Config: configs/pspnet/pspnet_r101-d8_512x512_4x4_80k_coco-stuff164k.py
   Weights: https://download.openmmlab.com/mmsegmentation/v0.5/pspnet/pspnet_r101-d8_512x512_4x4_80k_coco-stuff164k/pspnet_r101-d8_512x512_4x4_80k_coco-stuff164k_20210707_152034-7eb41789.pth
 - Name: pspnet_r50-d8_512x512_4x4_160k_coco-stuff164k
-  In Collection: pspnet
+  In Collection: PSPNet
   Metadata:
     backbone: R-50-D8
     crop size: (512,512)
@@ -701,7 +792,7 @@ Models:
   Config: configs/pspnet/pspnet_r50-d8_512x512_4x4_160k_coco-stuff164k.py
   Weights: https://download.openmmlab.com/mmsegmentation/v0.5/pspnet/pspnet_r50-d8_512x512_4x4_160k_coco-stuff164k/pspnet_r50-d8_512x512_4x4_160k_coco-stuff164k_20210707_152004-51276a57.pth
 - Name: pspnet_r101-d8_512x512_4x4_160k_coco-stuff164k
-  In Collection: pspnet
+  In Collection: PSPNet
   Metadata:
     backbone: R-101-D8
     crop size: (512,512)
@@ -715,7 +806,7 @@ Models:
   Config: configs/pspnet/pspnet_r101-d8_512x512_4x4_160k_coco-stuff164k.py
   Weights: https://download.openmmlab.com/mmsegmentation/v0.5/pspnet/pspnet_r101-d8_512x512_4x4_160k_coco-stuff164k/pspnet_r101-d8_512x512_4x4_160k_coco-stuff164k_20210707_152004-4af9621b.pth
 - Name: pspnet_r50-d8_512x512_4x4_320k_coco-stuff164k
-  In Collection: pspnet
+  In Collection: PSPNet
   Metadata:
     backbone: R-50-D8
     crop size: (512,512)
@@ -729,7 +820,7 @@ Models:
   Config: configs/pspnet/pspnet_r50-d8_512x512_4x4_320k_coco-stuff164k.py
   Weights: https://download.openmmlab.com/mmsegmentation/v0.5/pspnet/pspnet_r50-d8_512x512_4x4_320k_coco-stuff164k/pspnet_r50-d8_512x512_4x4_320k_coco-stuff164k_20210707_152004-be9610cc.pth
 - Name: pspnet_r101-d8_512x512_4x4_320k_coco-stuff164k
-  In Collection: pspnet
+  In Collection: PSPNet
   Metadata:
     backbone: R-101-D8
     crop size: (512,512)
@@ -743,7 +834,7 @@ Models:
   Config: configs/pspnet/pspnet_r101-d8_512x512_4x4_320k_coco-stuff164k.py
   Weights: https://download.openmmlab.com/mmsegmentation/v0.5/pspnet/pspnet_r101-d8_512x512_4x4_320k_coco-stuff164k/pspnet_r101-d8_512x512_4x4_320k_coco-stuff164k_20210707_152004-72220c60.pth
 - Name: pspnet_r18-d8_512x512_80k_loveda
-  In Collection: pspnet
+  In Collection: PSPNet
   Metadata:
     backbone: R-18-D8
     crop size: (512,512)
@@ -765,7 +856,7 @@ Models:
   Config: configs/pspnet/pspnet_r18-d8_512x512_80k_loveda.py
   Weights: https://download.openmmlab.com/mmsegmentation/v0.5/pspnet/pspnet_r18-d8_512x512_80k_loveda/pspnet_r18-d8_512x512_80k_loveda_20211105_052100-b97697f1.pth
 - Name: pspnet_r50-d8_512x512_80k_loveda
-  In Collection: pspnet
+  In Collection: PSPNet
   Metadata:
     backbone: R-50-D8
     crop size: (512,512)
@@ -787,7 +878,7 @@ Models:
   Config: configs/pspnet/pspnet_r50-d8_512x512_80k_loveda.py
   Weights: https://download.openmmlab.com/mmsegmentation/v0.5/pspnet/pspnet_r50-d8_512x512_80k_loveda/pspnet_r50-d8_512x512_80k_loveda_20211104_155728-88610f9f.pth
 - Name: pspnet_r101-d8_512x512_80k_loveda
-  In Collection: pspnet
+  In Collection: PSPNet
   Metadata:
     backbone: R-101-D8
     crop size: (512,512)
@@ -808,3 +899,179 @@ Models:
       mIoU(ms+flip): 51.34
   Config: configs/pspnet/pspnet_r101-d8_512x512_80k_loveda.py
   Weights: https://download.openmmlab.com/mmsegmentation/v0.5/pspnet/pspnet_r101-d8_512x512_80k_loveda/pspnet_r101-d8_512x512_80k_loveda_20211104_153212-1c06c6a8.pth
+- Name: pspnet_r18-d8_4x4_512x512_80k_potsdam
+  In Collection: PSPNet
+  Metadata:
+    backbone: R-18-D8
+    crop size: (512,512)
+    lr schd: 80000
+    inference time (ms/im):
+    - value: 11.75
+      hardware: V100
+      backend: PyTorch
+      batch size: 1
+      mode: FP32
+      resolution: (512,512)
+    Training Memory (GB): 1.5
+  Results:
+  - Task: Semantic Segmentation
+    Dataset: Potsdam
+    Metrics:
+      mIoU: 77.09
+      mIoU(ms+flip): 78.3
+  Config: configs/pspnet/pspnet_r18-d8_4x4_512x512_80k_potsdam.py
+  Weights: https://download.openmmlab.com/mmsegmentation/v0.5/pspnet/pspnet_r18-d8_4x4_512x512_80k_potsdam/pspnet_r18-d8_4x4_512x512_80k_potsdam_20211220_125612-7cd046e1.pth
+- Name: pspnet_r50-d8_4x4_512x512_80k_potsdam
+  In Collection: PSPNet
+  Metadata:
+    backbone: R-50-D8
+    crop size: (512,512)
+    lr schd: 80000
+    inference time (ms/im):
+    - value: 33.1
+      hardware: V100
+      backend: PyTorch
+      batch size: 1
+      mode: FP32
+      resolution: (512,512)
+    Training Memory (GB): 6.14
+  Results:
+  - Task: Semantic Segmentation
+    Dataset: Potsdam
+    Metrics:
+      mIoU: 78.12
+      mIoU(ms+flip): 78.98
+  Config: configs/pspnet/pspnet_r50-d8_4x4_512x512_80k_potsdam.py
+  Weights: https://download.openmmlab.com/mmsegmentation/v0.5/pspnet/pspnet_r50-d8_4x4_512x512_80k_potsdam/pspnet_r50-d8_4x4_512x512_80k_potsdam_20211219_043541-2dd5fe67.pth
+- Name: pspnet_r101-d8_4x4_512x512_80k_potsdam
+  In Collection: PSPNet
+  Metadata:
+    backbone: R-101-D8
+    crop size: (512,512)
+    lr schd: 80000
+    inference time (ms/im):
+    - value: 51.55
+      hardware: V100
+      backend: PyTorch
+      batch size: 1
+      mode: FP32
+      resolution: (512,512)
+    Training Memory (GB): 9.61
+  Results:
+  - Task: Semantic Segmentation
+    Dataset: Potsdam
+    Metrics:
+      mIoU: 78.62
+      mIoU(ms+flip): 79.47
+  Config: configs/pspnet/pspnet_r101-d8_4x4_512x512_80k_potsdam.py
+  Weights: https://download.openmmlab.com/mmsegmentation/v0.5/pspnet/pspnet_r101-d8_4x4_512x512_80k_potsdam/pspnet_r101-d8_4x4_512x512_80k_potsdam_20211220_125612-aed036c4.pth
+- Name: pspnet_r18-d8_4x4_512x512_80k_vaihingen
+  In Collection: PSPNet
+  Metadata:
+    backbone: R-18-D8
+    crop size: (512,512)
+    lr schd: 80000
+    inference time (ms/im):
+    - value: 11.76
+      hardware: V100
+      backend: PyTorch
+      batch size: 1
+      mode: FP32
+      resolution: (512,512)
+    Training Memory (GB): 1.45
+  Results:
+  - Task: Semantic Segmentation
+    Dataset: Vaihingen
+    Metrics:
+      mIoU: 71.46
+      mIoU(ms+flip): 73.36
+  Config: configs/pspnet/pspnet_r18-d8_4x4_512x512_80k_vaihingen.py
+  Weights: https://download.openmmlab.com/mmsegmentation/v0.5/pspnet/pspnet_r18-d8_4x4_512x512_80k_vaihingen/pspnet_r18-d8_4x4_512x512_80k_vaihingen_20211228_160355-52a8a6f6.pth
+- Name: pspnet_r50-d8_4x4_512x512_80k_vaihingen
+  In Collection: PSPNet
+  Metadata:
+    backbone: R-50-D8
+    crop size: (512,512)
+    lr schd: 80000
+    inference time (ms/im):
+    - value: 33.01
+      hardware: V100
+      backend: PyTorch
+      batch size: 1
+      mode: FP32
+      resolution: (512,512)
+    Training Memory (GB): 6.14
+  Results:
+  - Task: Semantic Segmentation
+    Dataset: Vaihingen
+    Metrics:
+      mIoU: 72.36
+      mIoU(ms+flip): 73.75
+  Config: configs/pspnet/pspnet_r50-d8_4x4_512x512_80k_vaihingen.py
+  Weights: https://download.openmmlab.com/mmsegmentation/v0.5/pspnet/pspnet_r50-d8_4x4_512x512_80k_vaihingen/pspnet_r50-d8_4x4_512x512_80k_vaihingen_20211228_160355-382f8f5b.pth
+- Name: pspnet_r101-d8_4x4_512x512_80k_vaihingen
+  In Collection: PSPNet
+  Metadata:
+    backbone: R-101-D8
+    crop size: (512,512)
+    lr schd: 80000
+    inference time (ms/im):
+    - value: 50.08
+      hardware: V100
+      backend: PyTorch
+      batch size: 1
+      mode: FP32
+      resolution: (512,512)
+    Training Memory (GB): 9.61
+  Results:
+  - Task: Semantic Segmentation
+    Dataset: Vaihingen
+    Metrics:
+      mIoU: 72.61
+      mIoU(ms+flip): 74.18
+  Config: configs/pspnet/pspnet_r101-d8_4x4_512x512_80k_vaihingen.py
+  Weights: https://download.openmmlab.com/mmsegmentation/v0.5/pspnet/pspnet_r101-d8_4x4_512x512_80k_vaihingen/pspnet_r101-d8_4x4_512x512_80k_vaihingen_20211231_230806-8eba0a09.pth
+- Name: pspnet_r18-d8_4x4_896x896_80k_isaid
+  In Collection: PSPNet
+  Metadata:
+    backbone: R-18-D8
+    crop size: (896,896)
+    lr schd: 80000
+    inference time (ms/im):
+    - value: 37.16
+      hardware: V100
+      backend: PyTorch
+      batch size: 1
+      mode: FP32
+      resolution: (896,896)
+    Training Memory (GB): 4.52
+  Results:
+  - Task: Semantic Segmentation
+    Dataset: iSAID
+    Metrics:
+      mIoU: 60.22
+      mIoU(ms+flip): 61.25
+  Config: configs/pspnet/pspnet_r18-d8_4x4_896x896_80k_isaid.py
+  Weights: https://download.openmmlab.com/mmsegmentation/v0.5/pspnet/pspnet_r18-d8_4x4_896x896_80k_isaid/pspnet_r18-d8_4x4_896x896_80k_isaid_20220110_180526-e84c0b6a.pth
+- Name: pspnet_r50-d8_4x4_896x896_80k_isaid
+  In Collection: PSPNet
+  Metadata:
+    backbone: R-50-D8
+    crop size: (896,896)
+    lr schd: 80000
+    inference time (ms/im):
+    - value: 112.61
+      hardware: V100
+      backend: PyTorch
+      batch size: 1
+      mode: FP32
+      resolution: (896,896)
+    Training Memory (GB): 16.58
+  Results:
+  - Task: Semantic Segmentation
+    Dataset: iSAID
+    Metrics:
+      mIoU: 65.36
+      mIoU(ms+flip): 66.48
+  Config: configs/pspnet/pspnet_r50-d8_4x4_896x896_80k_isaid.py
+  Weights: https://download.openmmlab.com/mmsegmentation/v0.5/pspnet/pspnet_r50-d8_4x4_896x896_80k_isaid/pspnet_r50-d8_4x4_896x896_80k_isaid_20220110_180629-1f21dc32.pth

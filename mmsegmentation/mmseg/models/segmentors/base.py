@@ -155,9 +155,14 @@ class BaseSegmentor(BaseModule, metaclass=ABCMeta):
         losses = self(**data_batch)
         loss, log_vars = self._parse_losses(losses)
 
+        log_vars_ = dict()
+        for loss_name, loss_value in log_vars.items():
+            k = loss_name + '_val'
+            log_vars_[k] = loss_value
+
         outputs = dict(
             loss=loss,
-            log_vars=log_vars,
+            log_vars=log_vars_,
             num_samples=len(data_batch['img_metas']))
 
         return outputs
@@ -245,8 +250,17 @@ class BaseSegmentor(BaseModule, metaclass=ABCMeta):
         seg = result[0]
         if palette is None:
             if self.PALETTE is None:
+                # Get random state before set seed,
+                # and restore random state later.
+                # It will prevent loss of randomness, as the palette
+                # may be different in each iteration if not specified.
+                # See: https://github.com/open-mmlab/mmdetection/issues/5844
+                state = np.random.get_state()
+                np.random.seed(42)
+                # random palette
                 palette = np.random.randint(
                     0, 255, size=(len(self.CLASSES), 3))
+                np.random.set_state(state)
             else:
                 palette = self.PALETTE
         palette = np.array(palette)
