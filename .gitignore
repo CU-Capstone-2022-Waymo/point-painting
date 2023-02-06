@@ -3,3 +3,5 @@ outputs/.
 work_dirs/.
 nuImage_dataset/
 .ipynb_checkpoints/.
+.data_che/
+iccv09Data/
