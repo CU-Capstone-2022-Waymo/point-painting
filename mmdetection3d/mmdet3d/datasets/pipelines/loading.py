@@ -390,6 +390,50 @@ class LoadPointsFromFile(object):
         self.file_client_args = file_client_args.copy()
         self.file_client = None
 
+    def _load_images(self, img_filename):
+        """Private function to load image data.
+
+        Args:
+            img_filename (str): Filename of image data.
+
+        Returns:
+            np.ndarray: An array containing image data.
+        """
+        if self.file_client is None:
+            self.file_client = mmcv.FileClient(**self.file_client_args)
+
+        img_bytes = self.file_client.get(img_filename)
+        img = mmcv.imfrombytes(
+            img_bytes, flag='color', channel_order='bgr')
+        if self.to_float32:
+            img = img.astype(np.float32)
+
+        return img
+    
+    def _get_points_color(self, points, image_filename, lidar2img_rt):
+        images = self._load_images(image_filename[0])   # CAM_FRONT
+        depth = points[:, 2]
+
+        pts_4d = np.concatenate([points, np.ones((points.shape[0], 1))], axis=1)
+        proj_mat = copy.deepcopy(lidar2img_rt).reshape(4, 4)    # lidar2img of CAM_FRONT
+        if isinstance(proj_mat, torch.Tensor):
+            proj_mat = proj_mat.cpu().numpy()
+        pts_2d = pts_4d @ proj_mat.T
+        
+        pts_2d[:, 2] = np.clip(pts_2d[:, 2], a_min=1e-5, a_max=1e5)
+        pts_2d[:, 0] /= pts_2d[:, 2]
+        pts_2d[:, 1] /= pts_2d[:, 2]
+        
+        colors = []
+        for i in range(pts_2d.shape[0]):
+            x, y = round(pts_2d[i, 0]), round(pts_2d[i, 1])
+            if 0 < x < images[0].size[0] and 0 < y < images[0].size[1] and depth[i] > 1:
+                colors.append(images[i].getpixel((x, y)))
+            else :
+                colors.append([0, 0, 0])
+            
+        return np.array(colors)
+
     def _load_points(self, pts_filename):
         """Private function to load point clouds data.
 
@@ -449,6 +493,8 @@ class LoadPointsFromFile(object):
                     points.shape[1] - 2,
                     points.shape[1] - 1,
                 ]))
+            colors = self._get_points_color(points, results['img_filename'], results['lidar2img_rt'])
+            points = np.concatenate([points[:3], colors], axis=1)
 
         points_class = get_points_type(self.coord_type)
         points = points_class(
