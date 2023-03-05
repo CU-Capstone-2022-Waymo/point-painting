@@ -2,6 +2,7 @@
 import re
 from copy import deepcopy
 from os import path as osp
+import matplotlib.pyplot as plt
 
 import mmcv
 import numpy as np
@@ -525,3 +526,81 @@ def show_result_meshlab(data,
                                                  score_thr, show, snapshot)
 
     return out_dir, file_name
+
+
+def show_seg_result_image(model,
+                    data_loader,
+                    show=False,
+                    out_dir=None):
+    """Save segmentation result in image format (excluding the orginal image).
+
+    By setting ``show=True``, it saves the visualization results under
+    ``out_dir``.
+
+    Args:
+        model (nn.Module): Model to be tested.
+        data_loader (nn.Dataloader): Pytorch data loader.
+        show (bool, optional): Whether to save viualization results.
+            Default: True.
+        out_dir (str, optional): The path to save visualization results.
+            Default: None.
+
+    """
+    model.eval()
+    dataset = data_loader.dataset
+    prog_bar = mmcv.ProgressBar(len(dataset))
+    for i, data in enumerate(data_loader):
+        with torch.no_grad():
+            result = model(return_loss=False, rescale=True, **data)
+
+        if show:
+            # Visualize the results of MMDetection model
+            # 'show_result' is MMdetection visualization API
+            
+            batch_size = len(result)
+            img_metas = data['img_metas'][0].data[0]
+
+
+            for i, img_meta in enumerate(img_metas):
+                ori_h, ori_w = img_meta['ori_shape'][:-1]
+
+                if out_dir:
+                    base_file = osp.splitext(img_meta['ori_filename'])[0]
+                    out_file = osp.join(out_dir, base_file + '.png')
+                else:
+                    out_file = None
+                
+                if isinstance(result[i], tuple):
+                    bbox_result, segm_result = result[i]
+                    if isinstance(segm_result, tuple):
+                        segm_result = segm_result[0]  # ms rcnn
+                else:
+                    bbox_result, segm_result = result, None
+                labels = [
+                    np.full(bbox.shape[0], i, dtype=np.int32) for i, bbox in enumerate(bbox_result)
+                ]
+                labels = np.concatenate(labels)
+                # draw segmentation masks
+                segms = None
+                if segm_result is not None and len(labels) > 0:  # non empty
+                    segms = mmcv.concat_list(segm_result)
+                    if isinstance(segms[0], torch.Tensor):
+                        segms = torch.stack(segms, dim=0).detach().cpu().numpy()
+                    else:
+                        segms = np.stack(segms, axis=0)
+                
+                if segms is not None:
+                    segms = segms.argmax(0)
+                else:
+                    segms = np.zeros((ori_h, ori_w))
+
+                if out_file is not None:
+                    mmcv.imwrite(segms, out_file)
+                else:
+                    plt.imshow(segms)
+                    plt.show()
+                    
+
+        batch_size = len(result)
+        for _ in range(batch_size):
+            prog_bar.update()
